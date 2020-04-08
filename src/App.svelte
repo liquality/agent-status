@@ -166,7 +166,7 @@ onMount(start)
   						<span>{asset.code}</span>
               <small class="badge badge-{asset.level2}">{asset.diff2} &mdash; {formatter.format(asset.diff)} USD</small>
   					</h5>
-  			    <h6 class="h2 font-weight-light" title="{formatter.format(asset.actualBalance)}">{formatter.format(asset.actualBalance)}</h6>
+  			    <h6 class="h2 font-weight-light" title="{formatter.format(asset.actualBalance)} {asset.code}">{formatter.format(asset.actualBalance)}</h6>
             <p class="card-text">
               <span class="small text-muted">~${formatter.format(asset.usd)} USD</span>
               <small class="badge badge-{asset.level} font-weight-light">{asset.share}%</small>
