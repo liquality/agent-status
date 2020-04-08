@@ -18,11 +18,31 @@ const currencyDecimalMap = {
   USDC: 1e2
 }
 const results = {}
+const totalUSD = {}
 const USD = {
   BTC: 0,
   ETH: 0,
   DAI: 0,
   USDC: 0
+}
+
+const MINMAX = {
+  BTC: {
+    min: 35,
+    max: 45
+  },
+  ETH: {
+    min: 20,
+    max: 30
+  },
+  DAI: {
+    min: 15,
+    max: 25
+  },
+  USDC: {
+    min: 5,
+    max: 15
+  }
 }
 
 const makeId = (network, env) => {
@@ -45,11 +65,48 @@ const prettyCurrency = (code, value) => {
 
 networks.forEach(network => {
   envs.forEach(env => {
-    results[makeId(network, env)] = []
+    const id = makeId(network, env)
+    totalUSD[id] = 0
+    results[id] = []
   })
 })
 
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
+
+async function run (network, env) {
+  const response = await fetch(makeUrl(network, env))
+  const assets = await response.json()
+  const id = makeId(network, env)
+
+  totalUSD[id] = 0
+  results[id] = assets.map(({ code, actualBalance }) => {
+    actualBalance = prettyCurrency(code, actualBalance)
+    const usd = network === 'testnet' && ['USDC', 'DAI'].includes(code) ? 0 : Math.floor(USD[code] * actualBalance * 100) / 100
+
+    totalUSD[id]+= usd
+
+    return {
+      code,
+      actualBalance,
+      usd
+    }
+  })
+
+  results[id] = results[id].map(asset => {
+    asset.share = Math.floor((asset.usd / totalUSD[id]) * 100)
+    const mm = MINMAX[asset.code]
+
+    if (asset.share >= mm.min && asset.share <= mm.max) {
+      asset.level = 'success'
+    } else {
+      asset.level = 'danger'
+    }
+
+    return asset
+  })
+
+  setTimeout(run, random(30000, 60000), network, env)
+}
 
 async function updateUSD () {
   const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin&vs_currencies=usd')
@@ -60,27 +117,11 @@ async function updateUSD () {
   USD.DAI = assets.dai.usd
   USD.USDC = assets['usd-coin'].usd
 
-  setTimeout(run, random(30000, 60000))
+  setTimeout(run, random(15000, 60000))
 }
 
-async function run (network, env) {
-	const response = await fetch(makeUrl(network, env))
-  const assets = await response.json()
-
-  results[makeId(network, env)] = assets.map(({ code, actualBalance }) => {
-    actualBalance = prettyCurrency(code, actualBalance)
-
-    return {
-      code,
-      actualBalance
-    }
-  })
-
-  setTimeout(run, random(15000, 60000), network, env)
-}
-
-function start () {
-  updateUSD()
+async function start () {
+  await updateUSD()
 
   networks.forEach(network => {
     envs.forEach(env => run(network, env))
@@ -101,9 +142,10 @@ onMount(start)
   			  <div class="card-body">
   			    <h5 class="card-title">
   						<span>{asset.code}</span>
+              <small class="badge badge-{asset.level}">{asset.share}%</small>
   					</h5>
   			    <h6 class="h2 font-weight-light" title="{formatter.format(asset.actualBalance)}">{formatter.format(asset.actualBalance)}</h6>
-            <p class="card-text small text-muted">~${formatter.format(Math.floor(USD[asset.code] * asset.actualBalance * 100) / 100)} USD</p>
+            <p class="card-text small text-muted">~${formatter.format(asset.usd)} USD</p>
   			  </div>
   			</div>
   		</div>
