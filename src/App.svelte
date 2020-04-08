@@ -29,18 +29,22 @@ const USD = {
 const MINMAX = {
   BTC: {
     min: 35,
+    target: 40,
     max: 45
   },
   ETH: {
     min: 20,
+    target: 25,
     max: 30
   },
   DAI: {
     min: 15,
+    target: 20,
     max: 25
   },
   USDC: {
     min: 5,
+    target: 10,
     max: 15
   }
 }
@@ -102,6 +106,18 @@ async function run (network, env) {
       asset.level = 'danger'
     }
 
+    asset.diff = Math.floor(asset.usd - ((mm.target / 100) * totalUSD[id]))
+    asset.diff2 = prettyCurrency(asset.code, (asset.diff / USD[asset.code]) * currencyMap[asset.code])
+
+    if (asset.diff > 0) {
+      asset.level2 = 'success'
+    } else {
+      asset.level2 = 'danger'
+    }
+
+    asset.diff = `${asset.diff}`.replace('-', '')
+    asset.diff2 = `${asset.diff2}`.replace('-', '')
+
     return asset
   })
 
@@ -133,6 +149,12 @@ onMount(start)
 
 <main>
 	<div class="container">
+  <ul class="list-inline">
+    <li class="list-inline-item"><span class="small text-muted">TARGET</span></li>
+  {#each Object.entries(MINMAX) as [code, mm]}
+    <li class="list-inline-item">{code} &mdash; {mm.target}%</li>
+  {/each}
+  </ul>
   {#each Object.entries(results) as [id, assets]}
     <h1 class="h4">{id}</h1>
 		<div class="row mb-4">
@@ -142,10 +164,13 @@ onMount(start)
   			  <div class="card-body">
   			    <h5 class="card-title">
   						<span>{asset.code}</span>
-              <small class="badge badge-{asset.level}">{asset.share}%</small>
+              <small class="badge badge-{asset.level2}">{asset.diff2} &mdash; {formatter.format(asset.diff)} USD</small>
   					</h5>
   			    <h6 class="h2 font-weight-light" title="{formatter.format(asset.actualBalance)}">{formatter.format(asset.actualBalance)}</h6>
-            <p class="card-text small text-muted">~${formatter.format(asset.usd)} USD</p>
+            <p class="card-text">
+              <span class="small text-muted">~${formatter.format(asset.usd)} USD</span>
+              <small class="badge badge-{asset.level} font-weight-light">{asset.share}%</small>
+            </p>
   			  </div>
   			</div>
   		</div>
@@ -179,5 +204,15 @@ h6.h2 {
 .card-title small {
 	font-size: 0.85rem;
 	font-weight: 400;
+}
+
+.list-inline-item + .list-inline-item {
+  margin-left: 1rem;
+}
+
+.card-text {
+  display: flex;
+  justify-content: space-between;
+	align-items: center;
 }
 </style>
