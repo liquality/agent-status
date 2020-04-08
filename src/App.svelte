@@ -156,7 +156,7 @@ onMount(start)
   {/each}
   </ul>
   {#each Object.entries(results) as [id, assets]}
-    <h1 class="h4">{id}</h1>
+    <h1 class="h4"><span>{id}</span><span class="small font-weight-light ml-3">{formatter.format(Math.floor(totalUSD[id] * 100) / 100)} USD</span></h1>
 		<div class="row mb-4">
     {#each assets as asset}
   		<div class="col-lg-3 col-md-3 col-12 mb-4">
@@ -191,6 +191,11 @@ main {
 .card-title {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+}
+
+h1.h4 {
+  display: flex;
 	align-items: center;
 }
 
