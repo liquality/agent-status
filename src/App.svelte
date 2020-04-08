@@ -133,7 +133,7 @@ async function updateUSD () {
   USD.DAI = assets.dai.usd
   USD.USDC = assets['usd-coin'].usd
 
-  setTimeout(run, random(15000, 60000))
+  setTimeout(updateUSD, random(15000, 60000))
 }
 
 async function start () {
