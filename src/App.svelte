@@ -9,13 +9,15 @@ const currencyMap = {
   BTC: 1e8,
   ETH: 1e18,
   DAI: 1e18,
-  USDC: 1e6
+  USDC: 1e6,
+  USDT: 1e6
 }
 const currencyDecimalMap = {
   BTC: 1e6,
   ETH: 1e6,
   DAI: 1e2,
-  USDC: 1e2
+  USDC: 1e2,
+  USDT: 1e2
 }
 const results = {}
 const totalUSD = {}
@@ -23,7 +25,8 @@ const USD = {
   BTC: 0,
   ETH: 0,
   DAI: 0,
-  USDC: 0
+  USDC: 0,
+  USDT: 0
 }
 
 const MINMAX = {
@@ -33,9 +36,9 @@ const MINMAX = {
     max: 45
   },
   ETH: {
-    min: 20,
-    target: 25,
-    max: 30
+    min: 15,
+    target: 20,
+    max: 25
   },
   DAI: {
     min: 15,
@@ -43,6 +46,11 @@ const MINMAX = {
     max: 25
   },
   USDC: {
+    min: 5,
+    target: 10,
+    max: 15
+  },
+  USDT: {
     min: 5,
     target: 10,
     max: 15
@@ -85,7 +93,7 @@ async function run (network, env) {
   totalUSD[id] = 0
   results[id] = assets.map(({ code, actualBalance }) => {
     actualBalance = prettyCurrency(code, actualBalance)
-    const usd = network === 'testnet' && ['USDC', 'DAI'].includes(code) ? 0 : Math.floor(USD[code] * actualBalance * 100) / 100
+    const usd = network === 'testnet' && ['USDC', 'DAI', 'USDT'].includes(code) ? 0 : Math.floor(USD[code] * actualBalance * 100) / 100
 
     totalUSD[id]+= usd
 
@@ -125,13 +133,14 @@ async function run (network, env) {
 }
 
 async function updateUSD () {
-  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin&vs_currencies=usd')
+  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin,tether&vs_currencies=usd')
   const assets = await response.json()
 
   USD.BTC = assets.bitcoin.usd
   USD.ETH = assets.ethereum.usd
   USD.DAI = assets.dai.usd
   USD.USDC = assets['usd-coin'].usd
+  USD.USDT = assets.tether.usd
 
   setTimeout(updateUSD, random(15000, 60000))
 }
