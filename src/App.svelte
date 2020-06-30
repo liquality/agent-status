@@ -41,9 +41,9 @@ const MINMAX = {
     max: 35
   },
   DAI: {
-    min: 20,
-    target: 25,
-    max: 30
+    min: 25,
+    target: 30,
+    max: 35
   },
   USDC: {
     min: 5,
@@ -51,9 +51,9 @@ const MINMAX = {
     max: 15
   },
   USDT: {
-    min: 10,
-    target: 15,
-    max: 20
+    min: 15,
+    target: 20,
+    max: 25
   }
 }
 
