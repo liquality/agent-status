@@ -31,19 +31,19 @@ const USD = {
 
 const MINMAX = {
   BTC: {
-    min: 35,
-    target: 40,
-    max: 45
+    min: 5,
+    target: 10,
+    max: 15
   },
   ETH: {
-    min: 15,
-    target: 20,
-    max: 25
+    min: 25,
+    target: 30,
+    max: 35
   },
   DAI: {
-    min: 15,
-    target: 20,
-    max: 25
+    min: 20,
+    target: 25,
+    max: 30
   },
   USDC: {
     min: 5,
@@ -51,9 +51,9 @@ const MINMAX = {
     max: 15
   },
   USDT: {
-    min: 5,
-    target: 10,
-    max: 15
+    min: 10,
+    target: 15,
+    max: 20
   }
 }
 
