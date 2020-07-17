@@ -49,19 +49,19 @@ const MINMAX = {
     max: 35
   },
   USDC: {
+    min: 1,
+    target: 5,
+    max: 10
+  },
+  USDT: {
+    min: 10,
+    target: 15,
+    max: 20
+  },
+  WBTC: {
     min: 5,
     target: 10,
     max: 15
-  },
-  USDT: {
-    min: 15,
-    target: 20,
-    max: 25
-  },
-  WBTC: {
-    min: 0,
-    target: 0,
-    max: 0
   }
 }
 
