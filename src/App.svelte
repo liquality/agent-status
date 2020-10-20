@@ -1,6 +1,8 @@
 <script>
 import { onMount } from 'svelte'
 
+import ALLOCATION from '../allocation.json'
+
 const formatter = new Intl.NumberFormat()
 const networks = ['', 'testnet']
 const envs = ['', 'dev']
@@ -32,16 +34,6 @@ const USD = {
   USDC: 0,
   USDT: 0,
   WBTC: 0
-}
-
-const ALLOCATION = {
-  BTC: 10,
-  ETH: 30,
-  DAI: 20,
-  USDC: 15,
-  USDT: 13,
-  WBTC: 10,
-  UNI: 2
 }
 
 const DROP = 0.2
