@@ -34,43 +34,27 @@ const USD = {
   WBTC: 0
 }
 
-const MINMAX = {
-  BTC: {
-    min: 5,
-    target: 10,
-    max: 15
-  },
-  ETH: {
-    min: 25,
-    target: 30,
-    max: 35
-  },
-  DAI: {
-    min: 25,
-    target: 30,
-    max: 35
-  },
-  USDC: {
-    min: 1,
-    target: 5,
-    max: 10
-  },
-  USDT: {
-    min: 10,
-    target: 15,
-    max: 20
-  },
-  WBTC: {
-    min: 5,
-    target: 10,
-    max: 15
-  },
-  UNI: {
-    min: 1,
-    target: 2,
-    max: 3
-  }
+const ALLOCATION = {
+  BTC: 10,
+  ETH: 30,
+  DAI: 20,
+  USDC: 15,
+  USDT: 13,
+  WBTC: 10,
+  UNI: 2
 }
+
+const DROP = 0.2
+const INCREASE = 0.2
+const MINMAX = {}
+
+Object.entries(ALLOCATION).forEach(([ asset, target ]) => {
+  MINMAX[asset] = {
+    min: target * (1 - DROP),
+    target,
+    max: target * (1 + INCREASE)
+  }
+})
 
 const makeId = (network, env) => {
   if (!network) network = 'mainnet'
