@@ -1,9 +1,10 @@
 {
-  "BTC": 20,
+  "BTC": 17,
   "ETH": 30,
   "DAI": 15,
   "USDC": 15,
   "USDT": 8,
-  "WBTC": 10,
-  "UNI": 2
+  "WBTC": 6,
+  "UNI": 2,
+  "RBTC": 7
 }
