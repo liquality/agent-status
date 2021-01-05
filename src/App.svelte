@@ -14,7 +14,8 @@ const currencyMap = {
   USDC: 1e6,
   USDT: 1e6,
   WBTC: 1e8,
-  UNI: 1e18
+  UNI: 1e18,
+  RBTC: 1e8
 }
 const currencyDecimalMap = {
   BTC: 1e6,
@@ -23,7 +24,8 @@ const currencyDecimalMap = {
   USDC: 1e2,
   USDT: 1e2,
   WBTC: 1e6,
-  UNI: 1e6
+  UNI: 1e6,
+  RBTC: 1e6
 }
 const results = {}
 const totalUSD = {}
