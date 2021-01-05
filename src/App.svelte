@@ -15,9 +15,9 @@ const currencyMap = {
   USDT: 1e6,
   WBTC: 1e8,
   UNI: 1e18,
-  RBTC: 1e8
+  RBTC: 1e18
 }
-const currencyDecimalMap = {
+const currencyDecimalMapUI = {
   BTC: 1e6,
   ETH: 1e6,
   DAI: 1e2,
@@ -35,7 +35,9 @@ const USD = {
   DAI: 0,
   USDC: 0,
   USDT: 0,
-  WBTC: 0
+  WBTC: 0,
+  UNI: 0,
+  RBTC: 0
 }
 
 const DROP = 0.2
@@ -65,7 +67,7 @@ const makeUrl = (network, env) => {
 
 const prettyCurrency = (code, value) => {
   const val = value / currencyMap[code]
-  return Math.floor(val * currencyDecimalMap[code]) / currencyDecimalMap[code]
+  return Math.floor(val * currencyDecimalMapUI[code]) / currencyDecimalMapUI[code]
 }
 
 networks.forEach(network => {
@@ -86,7 +88,7 @@ async function run (network, env) {
   totalUSD[id] = 0
   results[id] = assets.map(({ code, actualBalance }) => {
     actualBalance = prettyCurrency(code, actualBalance)
-    const usd = network === 'testnet' && ['USDC', 'DAI', 'USDT'].includes(code) ? 0 : Math.floor(USD[code] * actualBalance * 100) / 100
+    const usd = network === 'testnet' ? 0 : Math.floor(USD[code] * actualBalance * 100) / 100
 
     totalUSD[id]+= usd
 
@@ -98,7 +100,7 @@ async function run (network, env) {
   })
 
   results[id] = results[id].map(asset => {
-    asset.share = Math.floor((asset.usd / totalUSD[id]) * 100)
+    asset.share = Math.floor((asset.usd / totalUSD[id]) * 100) || 0
     const mm = MINMAX[asset.code]
 
     if (asset.share >= mm.min && asset.share <= mm.max) {
@@ -126,7 +128,7 @@ async function run (network, env) {
 }
 
 async function updateUSD () {
-  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin,tether,wrapped-bitcoin,uniswap&vs_currencies=usd')
+  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin,tether,wrapped-bitcoin,uniswap,rootstock&vs_currencies=usd')
   const assets = await response.json()
 
   USD.BTC = assets.bitcoin.usd
@@ -136,6 +138,7 @@ async function updateUSD () {
   USD.USDT = assets.tether.usd
   USD.WBTC = assets['wrapped-bitcoin'].usd
   USD.UNI = assets.uniswap.usd
+  USD.RBTC = assets.rootstock.usd
 
   setTimeout(updateUSD, random(15000, 60000))
 }
@@ -160,7 +163,10 @@ onMount(start)
   {/each}
   </ul>
   {#each Object.entries(results) as [id, assets]}
-    <h1 class="h4"><span>{id}</span><span class="small font-weight-light ml-3">{formatter.format(Math.floor(totalUSD[id] * 100) / 100)} USD</span></h1>
+    <h1 class="h4">
+      <span>{id}</span>
+      <span class="small font-weight-light ml-3">{formatter.format(Math.floor(totalUSD[id] * 100) / 100)} USD</span>
+    </h1>
 		<div class="row mb-4">
     {#each assets as asset}
   		<div class="col-lg-3 col-md-3 col-12 mb-4">
@@ -168,7 +174,9 @@ onMount(start)
   			  <div class="card-body">
   			    <h5 class="card-title">
   						<span>{asset.code}</span>
-              <small class="badge badge-{asset.level2}">{asset.diff2} &mdash; {formatter.format(asset.diff)} USD</small>
+              <small class="badge badge-{asset.level2}">
+                {asset.diff2} &mdash; {formatter.format(asset.diff)} USD
+              </small>
   					</h5>
   			    <h6 class="h2 font-weight-light" title="{formatter.format(asset.actualBalance)} {asset.code}">{formatter.format(asset.actualBalance)}</h6>
             <p class="card-text">
