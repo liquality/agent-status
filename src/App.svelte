@@ -134,7 +134,7 @@ async function run (network, env) {
 }
 
 async function updateUSD () {
-  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin,tether,wrapped-bitcoin,uniswap,rootstock,polygon,near&vs_currencies=usd')
+  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin,tether,wrapped-bitcoin,uniswap,rootstock,matic-network,near&vs_currencies=usd')
   const assets = await response.json()
 
   USD.BTC = assets.bitcoin.usd
@@ -146,7 +146,7 @@ async function updateUSD () {
   USD.UNI = assets.uniswap.usd
   USD.RBTC = assets.rootstock.usd
   USD.NEAR = assets.near.usd
-  USD.MATIC = (assets.polygon && assets.polygon.usd) || 0
+  USD.MATIC = assets['matic-network'].usd
 
   setTimeout(updateUSD, random(15000, 60000))
 }
