@@ -15,7 +15,9 @@ const currencyMap = {
   USDT: 1e6,
   WBTC: 1e8,
   UNI: 1e18,
-  RBTC: 1e18
+  RBTC: 1e18,
+  NEAR: 1e24,
+  MATIC: 1e18
 }
 const currencyDecimalMapUI = {
   BTC: 1e6,
@@ -25,7 +27,9 @@ const currencyDecimalMapUI = {
   USDT: 1e2,
   WBTC: 1e6,
   UNI: 1e6,
-  RBTC: 1e6
+  RBTC: 1e6,
+  NEAR: 1e6,
+  MATIC: 1e6
 }
 const results = {}
 const totalUSD = {}
@@ -37,7 +41,9 @@ const USD = {
   USDT: 0,
   WBTC: 0,
   UNI: 0,
-  RBTC: 0
+  RBTC: 0,
+  NEAR: 0,
+  MATIC: 0
 }
 
 const DROP = 0.2
@@ -128,7 +134,7 @@ async function run (network, env) {
 }
 
 async function updateUSD () {
-  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin,tether,wrapped-bitcoin,uniswap,rootstock&vs_currencies=usd')
+  const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,dai,usd-coin,tether,wrapped-bitcoin,uniswap,rootstock,polygon,near&vs_currencies=usd')
   const assets = await response.json()
 
   USD.BTC = assets.bitcoin.usd
@@ -139,6 +145,8 @@ async function updateUSD () {
   USD.WBTC = assets['wrapped-bitcoin'].usd
   USD.UNI = assets.uniswap.usd
   USD.RBTC = assets.rootstock.usd
+  USD.NEAR = assets.near.usd
+  USD.MATIC = (assets.polygon && assets.polygon.usd) || 0
 
   setTimeout(updateUSD, random(15000, 60000))
 }
