@@ -1,12 +1,12 @@
 {
-  "BTC": 23,
-  "ETH": 20,
-  "DAI": 10,
-  "USDC": 10,
-  "USDT": 10,
-  "WBTC": 2,
+  "BTC": 26,
+  "ETH": 17,
+  "DAI": 9,
+  "USDC": 9,
+  "USDT": 9,
+  "WBTC": 0,
   "UNI":  0,
-  "RBTC": 10,
-  "NEAR": 15,
-  "MATIC": 0
+  "RBTC": 12,
+  "NEAR": 14,
+  "MATIC": 4
 }
