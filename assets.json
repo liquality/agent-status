@@ -1,11 +1,11 @@
 {
   "BTC": {
-    "allocation": 26,
+    "allocation": 20,
     "decimal": 8,
     "pretty": 6
   },
   "ETH": {
-    "allocation": 17,
+    "allocation": 10,
     "decimal": 18,
     "pretty": 6
   },
@@ -35,22 +35,22 @@
     "pretty": 6
   },
   "RBTC": {
-    "allocation": 12,
+    "allocation": 8,
     "decimal": 18,
     "pretty": 6
   },
   "NEAR": {
-    "allocation": 14,
+    "allocation": 7,
     "decimal": 24,
     "pretty": 6
   },
   "MATIC": {
-    "allocation": 2,
+    "allocation": 4,
     "decimal": 18,
     "pretty": 6
   },
   "LUNA": {
-    "allocation": 2,
+    "allocation": 24,
     "decimal": 6,
     "pretty": 2
   }
