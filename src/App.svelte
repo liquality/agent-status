@@ -1,62 +1,42 @@
 <script>
 import { onMount } from 'svelte'
 
-import ALLOCATION from '../allocation.json'
+import ASSETS from '../assets.json'
 
 const formatter = new Intl.NumberFormat()
 const networks = ['', 'testnet']
 const envs = ['', 'dev']
 
-const currencyMap = {
-  BTC: 1e8,
-  ETH: 1e18,
-  DAI: 1e18,
-  USDC: 1e6,
-  USDT: 1e6,
-  WBTC: 1e8,
-  UNI: 1e18,
-  RBTC: 1e18,
-  NEAR: 1e24,
-  MATIC: 1e18
-}
-const currencyDecimalMapUI = {
-  BTC: 1e6,
-  ETH: 1e6,
-  DAI: 1e2,
-  USDC: 1e2,
-  USDT: 1e2,
-  WBTC: 1e6,
-  UNI: 1e6,
-  RBTC: 1e6,
-  NEAR: 1e6,
-  MATIC: 1e6
-}
+const currencyMap = Object.keys(ASSETS).reduce((acc, asset) => {
+  acc[asset] = 10 ** ASSETS[asset].decimal
+  return acc
+}, {})
+
+const currencyDecimalMapUI = Object.keys(ASSETS).reduce((acc, asset) => {
+  acc[asset] = 10 ** ASSETS[asset].pretty
+  return acc
+}, {})
+
+const USD = Object.keys(ASSETS).reduce((acc, asset) => {
+  acc[asset] = 0
+  return acc
+}, {})
+
 const results = {}
 const totalUSD = {}
-const USD = {
-  BTC: 0,
-  ETH: 0,
-  DAI: 0,
-  USDC: 0,
-  USDT: 0,
-  WBTC: 0,
-  UNI: 0,
-  RBTC: 0,
-  NEAR: 0,
-  MATIC: 0
-}
-
 const DROP = 0.2
 const INCREASE = 0.2
-const MINMAX = {}
+const MINMAX = Object.keys(ASSETS).reduce((acc, asset) => {
+  const target = ASSETS[asset].allocation
 
-Object.entries(ALLOCATION).forEach(([ asset, target ]) => {
-  MINMAX[asset] = {
+  acc[asset] = {
     min: target * (1 - DROP),
     target,
     max: target * (1 + INCREASE)
   }
-})
+
+  return acc
+}, {})
 
 const makeId = (network, env) => {
   if (!network) network = 'mainnet'

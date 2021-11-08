@@ -1,0 +1,57 @@
+{
+  "BTC": {
+    "allocation": 26,
+    "decimal": 8,
+    "pretty": 6
+  },
+  "ETH": {
+    "allocation": 17,
+    "decimal": 18,
+    "pretty": 6
+  },
+  "DAI": {
+    "allocation": 9,
+    "decimal": 18,
+    "pretty": 2
+  },
+  "USDC": {
+    "allocation": 9,
+    "decimal": 6,
+    "pretty": 2
+  },
+  "USDT": {
+    "allocation": 9,
+    "decimal": 6,
+    "pretty": 2
+  },
+  "WBTC": {
+    "allocation": 0,
+    "decimal": 8,
+    "pretty": 6
+  },
+  "UNI":  {
+    "allocation": 0,
+    "decimal": 18,
+    "pretty": 6
+  },
+  "RBTC": {
+    "allocation": 12,
+    "decimal": 18,
+    "pretty": 6
+  },
+  "NEAR": {
+    "allocation": 14,
+    "decimal": 24,
+    "pretty": 6
+  },
+  "MATIC": {
+    "allocation": 2,
+    "decimal": 18,
+    "pretty": 6
+  },
+  "LUNA": {
+    "allocation": 2,
+    "decimal": 6,
+    "pretty": 2
+  }
+}
