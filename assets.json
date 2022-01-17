@@ -10,17 +10,17 @@
     "pretty": 6
   },
   "DAI": {
-    "allocation": 9,
+    "allocation": 10,
     "decimal": 18,
     "pretty": 2
   },
   "USDC": {
-    "allocation": 9,
+    "allocation": 10,
     "decimal": 6,
     "pretty": 2
   },
   "USDT": {
-    "allocation": 9,
+    "allocation": 10,
     "decimal": 6,
     "pretty": 2
   },
@@ -40,17 +40,17 @@
     "pretty": 6
   },
   "NEAR": {
-    "allocation": 7,
+    "allocation": 6,
     "decimal": 24,
     "pretty": 6
   },
   "MATIC": {
-    "allocation": 4,
+    "allocation": 6,
     "decimal": 18,
     "pretty": 6
   },
   "LUNA": {
-    "allocation": 24,
+    "allocation": 20,
     "decimal": 6,
     "pretty": 2
   }
