@@ -53,5 +53,15 @@
     "allocation": 20,
     "decimal": 6,
     "pretty": 2
+  },
+  "UST": {
+    "allocation": 0,
+    "decimal": 6,
+    "pretty": 2
+  },
+  "AVAX": {
+    "allocation": 0,
+    "decimal": 18,
+    "pretty": 6
   }
 }
